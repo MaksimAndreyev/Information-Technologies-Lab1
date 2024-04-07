@@ -9,7 +9,7 @@
 int testGetRobotShipKoords()
 {
 	srand(time(0));
-	int expectedSpawnRow = 5;		//��������� ������ ���������� �������
+	int expectedSpawnRow = rand() % 10;		//��������� ������ ���������� �������
 	int decks = rand() % 4 + 1;		//���������� �������
 	int ship[4][2];
 	char field[10][10];
@@ -26,9 +26,9 @@ int testGetRobotShipKoords()
 	for (int i = 0; i < decks; i++)		//�������� �� ��������� ������� � ���� � � ��������� ������
 		for (int j = 0; j < 2; j++)
 		{
-			if (!(0 < ship[i][j] < 11))
+			if (!(-1 < ship[i][j] < 10))
 				return -1;
-			if ((j == 0) && (ship[i][j] != expectedSpawnRow))
+			if ((j == 0) && ((ship[i][j] != expectedSpawnRow) || (expectedSpawnRow == 1 && ship[i][j] == 0) || (expectedSpawnRow == 8 && ship[i][j] == 9)))
 				return -1;
 		}
 	return 0;
