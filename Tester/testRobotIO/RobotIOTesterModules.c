@@ -1,4 +1,4 @@
-#include "C:\projects2\RobotIO\RobotIO.h"
+#include "..\..\RobotIO\RobotIO.h"
 #include "RobotIOTesterModules.h"
 #include <stdlib.h>
 #include <time.h>
@@ -9,11 +9,11 @@
 int testGetRobotShipKoords()
 {
 	srand(time(0));
-	int expectedSpawnRow = 5;		//ожидаемая строка размещения корабля
-	int decks = rand() % 4 + 1;		//палубность корабля
+	int expectedSpawnRow = 5;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	int decks = rand() % 4 + 1;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	int ship[4][2];
 	char field[10][10];
-	for (int i = 0; i < 10; i++)	//генерация поля с единственной подходящей для размещения корабля строкой
+	for (int i = 0; i < 10; i++)	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	{
 		if ((i - 1 == expectedSpawnRow) || (i == expectedSpawnRow) || (i + 1 == expectedSpawnRow))
 			for (int j = 0; j < 10; j++)
@@ -24,8 +24,8 @@ int testGetRobotShipKoords()
 				for (int k = 0; k < 10; k++)
 					field[j][k] = '@';
 	}
-	GetRobotShipKoords(field, ship, decks);		//вызов тестируемой функции
-	for (int i = 0; i < decks; i++)		//проверка на попадание корабля в поле и в требуемую строку
+	GetRobotShipKoords(field, ship, decks);		//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	for (int i = 0; i < decks; i++)		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		for (int j = 0; j < 2; j++)
 		{
 			if (!(0 < ship[i][j] < 11))
@@ -40,13 +40,13 @@ int testGetRobotShipKoords()
 int testGetRobotTarget()
 {
 	srand(time(0));
-	int sankShip = rand() % 2;	//будет ли корабль затоплен целиком или нет
-	//координаты затопленной палубы
+	int sankShip = rand() % 2;	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	int sankDeckRow = rand() % 10;
 	int sankDeckColumn = rand() % 10;
 	char field[10][10];
 	int target[2];
-	for (int i = 0; i < 10; i++)	//генерация поля c затопленной палубой (или кораблём)
+	for (int i = 0; i < 10; i++)	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ c пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 		for (int j = 0; j < 10; j++)
 		{
 			bool flag1 = (i == sankDeckRow);
@@ -66,7 +66,7 @@ int testGetRobotTarget()
 				}
 			}
 		}
-	GetRobotTarget(field, target);	//вызов тестируемой функции
+	GetRobotTarget(field, target);	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (((0 > target[0]) || (target[0] > 11)) || ((0 > target[1]) || (target[1] > 11)))
 		return -1;
 	if ((field[target[0]][target[1]] == '0') || (field[target[0]][target[1]] == '*'))

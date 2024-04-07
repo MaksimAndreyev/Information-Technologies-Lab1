@@ -1,19 +1,120 @@
 #include "RobotIO.h"
+#include "stdlib.h"
+#include "time.h"
+#include "stdbool.h"
+
+
+void checkNeighbours(int a, int b, char field[10][10], bool* res)
+{
+	int edge1 = 0, edge2 = 0;
+	if (a == 0)
+		edge1 = -1;
+	else if (a == 9)
+		edge1 = 1;
+	if (b == 0)
+		edge2 = -1;
+	else if (b == 9)
+		edge2 = 1;
+	if (edge2 != -1)
+	{
+		if (edge1 != -1)
+			if (field[a-1][b-1] == '@')
+				*res = false;
+		if (edge1 != 1)
+			if (field[a+1][b-1] == '@')
+				*res = false;
+		if (field[a][b-1] == '@')
+			*res = false;
+	}
+	if (edge2 != 1)
+	{
+		if (edge1 != 1)
+			if (field[a+1][b+1] == '@')
+				*res = false;
+		if (edge1 != -1)
+			if (field[a-1][b+1] == '@')
+				*res = false;
+		if (field[a][b+1] == '@')
+			*res = false;
+	}
+	if (edge1 != -1)
+	{
+		if (field[a-1][b] == '@')
+			*res = false;
+	}
+	if (edge1 != 1)
+	{
+		if (field[a+1][b] == '@')
+		*res = false;
+	}
+}
 
 
 void GetRobotShipKoords(char field[10][10], int koords[4][2], int count)
 {
-	for (int i = 0; i < count; i++)
+	srand(time(0));
+	bool shipIsPlaced = false;	//размещён ли корабль
+	int place[4];	//массив для записи координат столбцов при горизонтальном размещении и наоборот
+	int j;	//количество найденных подходящих для размещения полей
+	bool cellIsGood;	//подходит ли текущая клетка
+	while (!shipIsPlaced)
 	{
-		koords[i][0] = 5;
-		koords[i][1] = i;
+		j = 0;
+		int orientation = rand() % 2;	//ориентация корабля: 0 - вертикально, 1 - горизонтально
+		int line = rand() % 10;		//генерация линии размещения (столбца или строки)
+		for (int i = 0; i < 10; i++)
+		{
+			cellIsGood = false;		//по умолчанию клетка не подходит
+			if (orientation)	//если размещаем горизонтально
+			{
+				if (field[line][i] == '#')		//если клетка пустая
+				{
+					cellIsGood = true;
+					checkNeighbours(line, i, field, &cellIsGood);	//проверяем соседние клетки
+				}
+			}
+			else	//если размещаем вертикально
+			{
+				if (field[i][line] == '#')		//если клетка пустая
+				{
+					cellIsGood = true;
+					checkNeighbours(i, line, field, &cellIsGood);	//проверяем соседние клетки
+				}
+			}
+			if (cellIsGood)		//если клетка подходит для размещения
+			{
+				place[j] = i;
+				j++;
+				if (j == count)		//если нашли нужное число клеток для размещения
+					break;
+			}
+			else
+				j = 0;
+		}
+		if (j == count)		//если нашли нужное число клеток для размещения
+		{
+			for (int i = 0; i < count; i++)		//заполняем массив koords
+			{
+				if (orientation)
+				{
+					koords[i][0] = line;
+					koords[i][1] = place[i];
+				}
+				else
+				{
+					koords[i][0] = place[i];
+					koords[i][1] = line;
+				}
+			}
+			shipIsPlaced = true;	//корабль размещён
+		}
 	}
 }
 
 
 void GetRobotTarget(char field[10][10], int koord[2])
 {
-	int targetFound = 0;	//����, ������� �� ����
+	int targetFound = 0;	//����, ������� �� ����
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
