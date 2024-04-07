@@ -28,7 +28,7 @@ int testGetRobotShipKoords()
 		{
 			if (!(-1 < ship[i][j] < 10))
 				return -1;
-			if ((j == 0) && ((ship[i][j] != expectedSpawnRow) || (expectedSpawnRow == 1 && ship[i][j] == 0) || (expectedSpawnRow == 8 && ship[i][j] == 9)))
+			if ((j == 0) && ((ship[i][j] != expectedSpawnRow) && (expectedSpawnRow == 1 && ship[i][j] != 0) && (expectedSpawnRow == 8 && ship[i][j] != 9)))
 				return -1;
 		}
 	return 0;
@@ -64,7 +64,7 @@ int testGetRobotTarget()
 				}
 			}
 		}
-	GetRobotTarget(field, target);	//����� ����������� �������
+	GetRobotTarget(field, target, sankShip+1);	//����� ����������� �������
 	if (((0 > target[0]) || (target[0] > 11)) || ((0 > target[1]) || (target[1] > 11)))
 		return -1;
 	if ((field[target[0]][target[1]] == '0') || (field[target[0]][target[1]] == '*'))

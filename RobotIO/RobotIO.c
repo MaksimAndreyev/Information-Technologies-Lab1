@@ -112,22 +112,104 @@ void GetRobotShipKoords(char field[10][10], int koords[4][2], int count)
 }
 
 
-void GetRobotTarget(char field[10][10], int koord[2])
+void GetRobotTarget(char field[10][10], int koord[2], int code)
 {
-	int targetFound = 0;	//����, ������� �� ����
-	for (int i = 0; i < 10; i++)
+	bool targetFound = false;	//найдена ли цель
+	if (code == 1)	//если прошлый выстрел был попаданием, не потопившим корабль
 	{
-		for (int j = 0; j < 10; j++)
+		for (int i = 0; i < 10; i++)
 		{
-			if (field[i][j] == '#')
+			for (int j = 0; j < 10; j++)
 			{
-				koord[0] = i;
-				koord[1] = j;
-				targetFound = 1;
+				if (field[i][j] == '#')
+				{
+					if ((j != 0 && field[i][j-1] == '*') || (j != 9 && field[i][j+1] == '*') || (i != 0 && field[i-1][j] == '*') || (i != 9 && field[i+1][j] == '*'))
+					{
+						targetFound = true;
+					}
+				}
+				if (targetFound)
+				{
+					koord[0] = i;
+					koord[1] = j;
+					break;
+				}
+			}
+			if (targetFound)
 				break;
+		}
+	}
+	else	//если прошлый выстрел потопил корабль или был промахом
+	{
+		//ищем четырёхпалубник
+		int start = 3;
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = start; j < 10; j += 4)
+			{
+				if (field[i][j] == '#')
+				{
+					koord[0] = i;
+					koord[1] = j;
+					targetFound = true;
+					break;
+				}
+			}
+			if (targetFound)
+				break;
+			else 
+			{
+				if (start != 0)
+					start--;
+				else
+					start = 3;
+			}	
+		}
+		if (!targetFound)
+		{
+			//ищем 3-ёх- и 2-ухпалубники
+			int start = 1;
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = start; j < 10; j += 4)
+				{
+					if (field[i][j] == '#')
+					{
+						koord[0] = i;
+						koord[1] = j;
+						targetFound = true;
+						break;
+					}
+				}
+				if (targetFound)
+					break;
+				else 
+				{
+					if (start != 0)
+						start--;
+					else
+						start = 3;
+				}	
 			}
 		}
-		if (targetFound)
-			break;
+		if (!targetFound)
+		{
+			//ищем просто свободное поле
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < 10; j++)
+				{
+					if (field[i][j] == '#')
+					{
+						koord[0] = i;
+						koord[1] = j;
+						targetFound = true;
+						break;
+					}
+				}
+				if (targetFound)
+					break;
+			}
+		}
 	}
 }
