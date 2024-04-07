@@ -17,12 +17,10 @@ int testGetRobotShipKoords()
 	{
 		if ((i - 1 == expectedSpawnRow) || (i == expectedSpawnRow) || (i + 1 == expectedSpawnRow))
 			for (int j = 0; j < 10; j++)
-				for (int k = 0; k < 10; k++)
-					field[j][k] = '#';
+				field[i][j] = '#';
 		else
 			for (int j = 0; j < 10; j++)
-				for (int k = 0; k < 10; k++)
-					field[j][k] = '@';
+				field[i][j] = '@';
 	}
 	GetRobotShipKoords(field, ship, decks);		//����� ����������� �������
 	for (int i = 0; i < decks; i++)		//�������� �� ��������� ������� � ���� � � ��������� ������
