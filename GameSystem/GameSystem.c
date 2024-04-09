@@ -1,13 +1,13 @@
 #include "GameSystem.h"
 
 
-void checkNeighbours(int a, int b, char field[10][10], int* res);
+void lookNeighbours(int a, int b, char field[10][10], int* res);
 void sinkShip(int a, int b, char field[10][10]);
 int Shoot(char field[10][10], int koord[2], int ships);
 void PlaceShip(char field[10][10], int koords[4][2], int count);
 
 
-void checkNeighbours(int a, int b, char field[10][10], int* res)
+void lookNeighbours(int a, int b, char field[10][10], int* res)
 {
 	int edge1 = 0, edge2 = 0;
 	if (a == 0)
@@ -20,23 +20,11 @@ void checkNeighbours(int a, int b, char field[10][10], int* res)
 		edge2 = 1;
 	if (edge2 != -1)
 	{
-		if (edge1 != -1)
-			if (field[a-1][b-1] == '@')
-				*res = 1;
-		if (edge1 != 1)
-			if (field[a+1][b-1] == '@')
-				*res = 1;
 		if (field[a][b-1] == '@')
 			*res = 1;
 	}
 	if (edge2 != 1)
 	{
-		if (edge1 != 1)
-			if (field[a+1][b+1] == '@')
-				*res = 1;
-		if (edge1 != -1)
-			if (field[a-1][b+1] == '@')
-				*res = 1;
 		if (field[a][b+1] == '@')
 			*res = 1;
 	}
@@ -106,12 +94,13 @@ int Shoot(char field[10][10], int koord[2], int ships)
 	case '@':
 		break;
 	default:
+		field[koord[0]][koord[1]] = '0';
 		return 0;
 	}
 	field[koord[0]][koord[1]] = '*';
 	int shipDestroyed = 0;		//потоплен ли корабль целиком (по умолчанию нет)
-	checkNeighbours(koord[0], koord[1], field, &shipDestroyed);
-	if (shipDestroyed)		//если корабль был потоплен целиком
+	lookNeighbours(koord[0], koord[1], field, &shipDestroyed);
+	if (!shipDestroyed)		//если корабль был потоплен целиком
 	{
 		ships--;
 		sinkShip(koord[0], koord[1], field);
