@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+int testShoot();
+int testPlaceShip();
+
 
 int testShoot()
 {
@@ -70,7 +73,7 @@ int testPlaceShip()
 {
 	srand(time(0));
 	int decks = rand() % 4 + 1;		//���������� �������
-	int column = rand() % 10 + 1;	//������� � ������� ����� �������
+	int column = rand() % 10;	//������� � ������� ����� �������
 	int ship[4][2];		//�������
 	char field[10][10];
 	for (int i = 0; i < decks; i++)

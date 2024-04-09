@@ -6,6 +6,10 @@
 #include <stdio.h>
 
 
+int testGetRobotShipKoords();
+int testGetRobotTarget();
+
+
 int testGetRobotShipKoords()
 {
 	srand(time(0));
