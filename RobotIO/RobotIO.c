@@ -1,8 +1,20 @@
 #include "RobotIO.h"
+#include "stdlib.h"
+#include "time.h"
+#include "stdbool.h"
 
 
 void GetRobotShipKoords(char field[10][10], int koords[4][2], int count)
 {
+	srand(time(0));
+	bool shipIsPlaced = false;	//размещён ли корабль
+	int kds = new int[count];
+	/*while (!shipIsPlaced)
+	{
+		int orientaion = rand() % 2;	//генерация ориентации корабля: 0 - горизонтально, 1 - вертикально
+		int line = rand() % 10 + 1;		//генерация линии размещения корабля (вертикали или горизонтали)
+
+	}*/
 	for (int i = 0; i < count; i++)
 	{
 		koords[i][0] = 5;
