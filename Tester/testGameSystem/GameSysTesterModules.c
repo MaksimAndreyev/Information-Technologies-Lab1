@@ -1,46 +1,80 @@
-#include "C:\projects2\GameSystem\GameSystem.h"
+#include "..\..\GameSystem\GameSystem.h"
 #include "GameSysTesterModules.h"
 #include <stdlib.h>
 #include <time.h>
+
+int testShoot();
+int testPlaceShip();
 
 
 int testShoot()
 {
 	srand(time(0));
-	//координаты корабля
-	int shipRow = rand() % 10 + 1;
-	int shipColumn = rand() % 10 + 1;
-	int hit = rand() % 2;	//должно ли быть попадание
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	int shipRow = rand() % 9 + 1;
+	int shipColumn = rand() % 9 + 1;
+	int hit = rand() % 2;	//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	int full = rand() % 2;	//Р±СѓРґРµС‚ Р»Рё РїРѕС‚РѕРїР»РµРЅРёРµ РєРѕСЂР°Р±Р»СЏ С†РµР»РёРєРѕРј РёР»Рё РЅРµС‚
+	int ships = rand() % 2 + 1;		//РіРµРЅРµСЂР°С†РёСЏ С‡РёСЃР»Р° Р¶РёРІС‹С… РєРѕСЂР°Р±Р»РµР№
 	int res;
 	char field[10][10];
-	int target[2] = { 5, 5 };	//координаты выстрела
-	//генерация поля
+	int target[2] = { shipRow-1, shipColumn-1 };	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	for (int i = 0; i < 10; i++)
 		for (int j = 0; j < 10; j++)
 		{
 			if ((shipRow == i) && (shipColumn == j))
 				field[i][j] = '@';
 			else
+			{
 				field[i][j] = '#';
-		}
+				if (!full)
+				{
+					if (shipRow-1 == i && shipColumn == j)
+						field[i][j] = '@';
+				}
+			}
+		}	
 	if (hit)
 	{
 		target[0] = shipRow;
 		target[1] = shipColumn;
 	}
-	res = Shoot(field, target);		//вызов тестируемой функции
-	if (hit == res)		//проверка соответствия результата
-		return 0;
-	return -1;
+	res = Shoot(field, target, ships);		//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	switch (res)
+	{
+	case 0:
+		if (hit == 0)
+			return 0;
+		else
+			return -1;
+	case 1:
+		if (hit == 1 && full == 0)
+			return 0;
+		else
+			return -1;
+	case 2:
+		if (hit == 1 && full == 1 && ships == 2)
+			return 0;
+		else
+			return -1;
+	case 3:
+		if (hit == 1 && full == 1 && ships == 1)
+			return 0;
+		else
+			return -1;
+	default:
+		return -1;
+	}
 }
 
 
 int testPlaceShip()
 {
 	srand(time(0));
-	int decks = rand() % 4 + 1;		//палубность корабля
-	int column = rand() % 10 + 1;	//столбец в котором будет корабль
-	int ship[4][2];		//корабль
+	int decks = rand() % 4 + 1;		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	int column = rand() % 10;	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	int ship[4][2];		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	char field[10][10];
 	for (int i = 0; i < decks; i++)
 	{
@@ -50,9 +84,9 @@ int testPlaceShip()
 	for (int i = 0; i < 10; i++)
 		for (int j = 0; j < 10; j++)
 			field[i][j] = '#';
-	PlaceShip(field, ship, decks);	//вызов тестируемой функции
-	int k = 0;	//количество размещённых палуб
-	//проверка результа работы функции
+	PlaceShip(field, ship, decks);	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	int k = 0;	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	for (int i = 0; i < 10; i++)
 		for (int j = 0; j < 10; j++)
 			if (field[i][j] == '@')
