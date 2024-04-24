@@ -6,7 +6,7 @@
 
 void checkNeighbours(int a, int b, char field[10][10], bool* res);
 void GetRobotShipKoords(char field[10][10], int koords[4][2], int count);
-void GetRobotTarget(char field[10][10], int koord[2], int code);
+void GetRobotTarget(char field[10][10], int koord[2]);
 
 
 void checkNeighbours(int a, int b, char field[10][10], bool* res)
@@ -117,34 +117,31 @@ void GetRobotShipKoords(char field[10][10], int koords[4][2], int count)
 }
 
 
-void GetRobotTarget(char field[10][10], int koord[2], int code)
+void GetRobotTarget(char field[10][10], int koord[2])
 {
 	bool targetFound = false;	//найдена ли цель
-	if (code == 1)	//если прошлый выстрел был попаданием, не потопившим корабль
+	for (int i = 0; i < 10; i++)	//ищем, есть ли недобитые корабли
 	{
-		for (int i = 0; i < 10; i++)
+		for (int j = 0; j < 10; j++)
 		{
-			for (int j = 0; j < 10; j++)
+			if (field[i][j] == '#')
 			{
-				if (field[i][j] == '#')
+				if ((j != 0 && field[i][j-1] == '*') || (j != 9 && field[i][j+1] == '*') || (i != 0 && field[i-1][j] == '*') || (i != 9 && field[i+1][j] == '*'))
 				{
-					if ((j != 0 && field[i][j-1] == '*') || (j != 9 && field[i][j+1] == '*') || (i != 0 && field[i-1][j] == '*') || (i != 9 && field[i+1][j] == '*'))
-					{
-						targetFound = true;
-					}
-				}
-				if (targetFound)
-				{
-					koord[0] = i;
-					koord[1] = j;
-					break;
+					targetFound = true;
 				}
 			}
 			if (targetFound)
+			{
+				koord[0] = i;
+				koord[1] = j;
 				break;
+			}
 		}
+		if (targetFound)
+			break;
 	}
-	else	//если прошлый выстрел потопил корабль или был промахом
+	if (!targetFound)	//если прошлый выстрел потопил корабль или был промахом
 	{
 		//ищем четырёхпалубник
 		int start = 3;

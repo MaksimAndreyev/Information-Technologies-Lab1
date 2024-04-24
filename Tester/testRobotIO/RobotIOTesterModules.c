@@ -68,7 +68,7 @@ int testGetRobotTarget()
 				}
 			}
 		}
-	GetRobotTarget(field, target, sankShip+1);	//����� ����������� �������
+	GetRobotTarget(field, target);	//����� ����������� �������
 	if (((0 > target[0]) || (target[0] > 11)) || ((0 > target[1]) || (target[1] > 11)))
 		return -1;
 	if ((field[target[0]][target[1]] == '0') || (field[target[0]][target[1]] == '*'))

@@ -4,5 +4,5 @@ Tester/main.exe
 /test.exe
 /test1.c
 /test1.exe
-/Tester/TestGameSystem.log
-/Tester/TestRobotIO.log
+Tester/TestGameSystem.log
+Tester/TestRobotIO.log
