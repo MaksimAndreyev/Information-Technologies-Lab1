@@ -30,7 +30,7 @@ int testGetRobotShipKoords()
 	for (int i = 0; i < decks; i++)		//�������� �� ��������� ������� � ���� � � ��������� ������
 		for (int j = 0; j < 2; j++)
 		{
-			if (!(-1 < ship[i][j] < 10))
+			if (0 > ship[i][j] || ship[i][j] > 9)
 				return -1;
 			if ((j == 0) && ((ship[i][j] != expectedSpawnRow) && (expectedSpawnRow == 1 && ship[i][j] != 0) && (expectedSpawnRow == 8 && ship[i][j] != 9)))
 				return -1;
